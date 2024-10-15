@@ -11,7 +11,7 @@ import SwiftUI
 struct marvieApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SignIn()
         }
     }
 }
