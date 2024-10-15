@@ -121,3 +121,54 @@ struct SubHeading: View {
         Text(title).font(.system(size: 20)).foregroundStyle(.grey)
     }
 }
+
+
+struct CountryCode: View {
+    @State private var selectedCountry: Country?
+    @State private var searchText = ""
+    
+    let countries: [Country] = [
+        Country(name: "United States", flag: "🇺🇸", code: "+1"),
+        Country(name: "United Kingdom", flag: "🇬🇧", code: "+44"),
+        Country(name: "Canada", flag: "🇨🇦", code: "+1"),
+        Country(name: "Australia", flag: "🇦🇺", code: "+61"),
+        Country(name: "Germany", flag: "🇩🇪", code: "+49"),
+        Country(name: "France", flag: "🇫🇷", code: "+33"),
+        Country(name: "Japan", flag: "🇯🇵", code: "+81"),
+        Country(name: "India", flag: "🇮🇳", code: "+91"),
+        // Add more countries as needed
+    ]
+    var filteredCountries: [Country] {
+        if searchText.isEmpty {
+            return countries
+        } else {
+            return countries.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        }
+    }
+    var body: some View {
+        NavigationView {
+            List(filteredCountries) { country in
+                HStack {
+                    Text(country.flag)
+                        .font(.largeTitle)
+                    Text(country.name)
+                    Spacer()
+                    Text(country.code)
+                        .foregroundColor(.gray)
+                }
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    selectedCountry = country
+                }
+            }
+            .navigationTitle("Select Country")
+            .searchable(text: $searchText, prompt: "Search countries")
+        }
+        .alert(item: $selectedCountry) { country in
+            Alert(title: Text("Selected Country"),
+                  message: Text("\(country.name) (\(country.code))"),
+                  dismissButton: .default(Text("OK")))
+        }
+    }
+}
+
