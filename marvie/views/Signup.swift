@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Signup: View {
     @State private var userName: String = ""
-    @Environment(\.presentationMode) var presentationMode
+
     var body: some View {
         
         ZStack(alignment: .center, content: {
@@ -44,20 +44,17 @@ struct Signup: View {
                 }.padding(.top, 50)
                 
                 HStack {
-                    Button {
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        HStack {
-                            Image(systemName: "arrow.left").foregroundStyle(.white).bold().padding().frame(maxWidth: 100).background(.greenClr.opacity(0.3)).clipShape(.rect(cornerRadius: 10))
-                        }
-                    }.padding(.top,50)
-                    Button {
+                    BackButton().padding(.top,50)
+                    NavigationLink {
+                        NumberView().navigationBarBackButtonHidden(true)
                         
                     } label: {
                         HStack {
-                            Text("Next").foregroundStyle(.white).bold().padding().frame(maxWidth: .infinity).background(.greenClr).clipShape(.rect(cornerRadius: 10))
+                            NextButton()
                         }
                     }.padding(.top,50)
+
+                   
                     
                     
                 }
@@ -69,4 +66,24 @@ struct Signup: View {
 
 #Preview {
     Signup()
+}
+
+struct NextButton: View {
+    var body: some View {
+        Text("Next").foregroundStyle(.white).bold().padding().frame(maxWidth: .infinity).background(.greenClr).clipShape(.rect(cornerRadius: 10))
+    }
+}
+
+
+struct BackButton: View {
+    @Environment(\.presentationMode) var presentationMode
+    var body: some View {
+        Button {
+            presentationMode.wrappedValue.dismiss()
+        } label: {
+            HStack {
+                Image(systemName: "arrow.left").foregroundStyle(.white).bold().padding().frame(maxWidth: 100).background(.greenClr.opacity(0.3)).clipShape(.rect(cornerRadius: 10))
+            }
+        }
+    }
 }

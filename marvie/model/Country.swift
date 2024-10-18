@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct Country: Identifiable {
+struct Country: Identifiable, Hashable {
     let id = UUID()
     let name: String
     let flag: String
